@@ -24,4 +24,24 @@ namespace PatikaAPI.Controllers
                 }
             }
     }
+
+        [HttpPost("UjKezel")]
+        public IActionResult Post(Kezel ujKezel)
+        {
+            using (var context = new PatikaContext())
+            {
+                try
+                {
+                    context.Kezels.Add(ujKezel);
+                    context.SaveChanges();
+                    return Ok("Sikeres rögzítés");
+                }
+                catch (Exception ex)
+                {
+
+                    return BadRequest(ex.Message)
+                }            
+            }
+        }
+
 }
