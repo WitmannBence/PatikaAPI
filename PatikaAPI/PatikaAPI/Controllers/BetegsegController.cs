@@ -10,6 +10,7 @@ namespace PatikaAPI.Controllers
     [ApiController]
     public class BetegsegController : ControllerBase
     {
+        #region Szinkron végpontok
         [HttpGet]
         public IActionResult Get()
         {
@@ -93,7 +94,7 @@ namespace PatikaAPI.Controllers
             {
                 try
                 {
-                    List<Betegseg> result = context.Kezels.Include(k => k.Betegseg).Include(k => k.Gyogyszer).Where(k => k.Gyogyszer.Id== id).Select(k => k.Betegseg).ToList();
+                    List<Betegseg> result = context.Kezels.Include(k => k.Betegseg).Include(k => k.Gyogyszer).Where(k => k.Gyogyszer.Id == id).Select(k => k.Betegseg).ToList();
                     return Ok(result);
                 }
                 catch (Exception ex)
@@ -121,8 +122,8 @@ namespace PatikaAPI.Controllers
                 {
                     List<IdMegnevezesDTO> result = context.Betegsegs.Select(gy => new IdMegnevezesDTO()
                     {
-                       Id=gy.Id,
-                       Megnevezes=gy.Megnevezes
+                        Id = gy.Id,
+                        Megnevezes = gy.Megnevezes
                     }).ToList();
 
                     return StatusCode(200, result);
@@ -207,6 +208,38 @@ namespace PatikaAPI.Controllers
                 }
             }
         }
+        #endregion
 
+        #region Aszinkron 
+
+        [HttpGet("GetAllAsynx")]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            using (var context = new PatikaContext())
+            {
+                try
+                {
+                    List<Betegseg> result = await context.Betegsegs.ToListAsync();
+                    return Ok(result);
+                }
+                catch (Exception ex)
+                {
+
+                    List<Betegseg> result = new List<Betegseg>()
+                    {
+                        new Betegseg() {
+                        Id = -1,
+                        Megnevezes = ex.Message
+                        }
+
+                    };
+                    return BadRequest(result);
+                }
+
+
+
+                #endregion
+            }
+        }
     }
 }
