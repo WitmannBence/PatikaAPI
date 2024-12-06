@@ -14,4 +14,6 @@ public partial class Gyogyszer
     public bool Venykoteles { get; set; }
 
     public string Kepnev { get; set; } = null!;
+
+    public virtual ICollection<Kezel> Kezels { get; set; } = new List<Kezel>();
 }

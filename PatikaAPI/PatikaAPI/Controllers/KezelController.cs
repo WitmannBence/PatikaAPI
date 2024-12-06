@@ -23,7 +23,7 @@ namespace PatikaAPI.Controllers
                     return BadRequest(ex.Message);
                 }
             }
-    }
+        }
 
         [HttpPost("UjKezel")]
         public IActionResult Post(Kezel ujKezel)
@@ -39,9 +39,9 @@ namespace PatikaAPI.Controllers
                 catch (Exception ex)
                 {
 
-                    return BadRequest(ex.Message)
-                }            
+                    return BadRequest(ex.Message);
+                }
             }
         }
-
+    }
 }

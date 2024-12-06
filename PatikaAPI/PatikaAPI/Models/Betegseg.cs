@@ -10,4 +10,6 @@ public partial class Betegseg
     public string Megnevezes { get; set; } = null!;
 
     public string Leiras { get; set; } = null!;
+
+    public virtual ICollection<Kezel> Kezels { get; set; } = new List<Kezel>();
 }

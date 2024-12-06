@@ -54,22 +54,23 @@ public partial class PatikaContext : DbContext
 
         modelBuilder.Entity<Kezel>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("kezel");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("kezel");
 
             entity.HasIndex(e => e.BetegsegId, "BetegsegId");
 
             entity.HasIndex(e => e.GyogyszerId, "GyogyszerId");
 
+            entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.BetegsegId).HasColumnType("int(11)");
             entity.Property(e => e.GyogyszerId).HasColumnType("int(11)");
 
-            entity.HasOne(d => d.Betegseg).WithMany()
+            entity.HasOne(d => d.Betegseg).WithMany(p => p.Kezels)
                 .HasForeignKey(d => d.BetegsegId)
                 .HasConstraintName("kezel_ibfk_2");
 
-            entity.HasOne(d => d.Gyogyszer).WithMany()
+            entity.HasOne(d => d.Gyogyszer).WithMany(p => p.Kezels)
                 .HasForeignKey(d => d.GyogyszerId)
                 .HasConstraintName("kezel_ibfk_1");
         });
